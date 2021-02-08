@@ -1,0 +1,364 @@
+openapi: 3.0.1
+info:
+  title: SeoulAir Device microservice.
+  description: |-
+    SeoulAir Device is microservice that is part of SeoulAir project.
+    For more information visit Gitlab Repository
+  contact:
+    name: Gitlab Repository
+    url: 'http://gitlab.com/seoulair/seoulair-device.git'
+  version: '1.0'
+paths:
+  /api/AirQualitySensor/TurnOn:
+    put:
+      tags:
+        - AirQualitySensor
+      summary: Turns on the sensor and starts measuring data.
+      description: "Sensor is connected to Mqtt Broker from appsettings.json.\r\n            All measured data is sent through configured topic."
+      responses:
+        '204':
+          description: Sensor started
+  /api/AirQualitySensor/TurnOff:
+    put:
+      tags:
+        - AirQualitySensor
+      summary: Turns off the sensor. Data is no longer sent through the topic.
+      responses:
+        '204':
+          description: Sensor not working anymore
+  /api/AirQualitySensor/IsOn:
+    get:
+      tags:
+        - AirQualitySensor
+      summary: Checks if sensor is on. (measuring data and sending it to mqtt broker)
+      responses:
+        '200':
+          description: Operation completed successfully and boolean result is returned
+          content:
+            text/plain:
+              schema:
+                type: boolean
+            application/json:
+              schema:
+                type: boolean
+            text/json:
+              schema:
+                type: boolean
+  /api/AirQualitySensor/LastMeasuredData:
+    get:
+      tags:
+        - AirQualitySensor
+      summary: Returns last measured instance of data. Saved only temporarily.
+      responses:
+        '200':
+          description: Data fetched successfully and returned.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/RawDataInstanceDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RawDataInstanceDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/RawDataInstanceDto'
+  /api/AirQualitySensor/parameters:
+    get:
+      tags:
+        - AirQualitySensor
+      summary: Returns active configuration on which application is running.
+      responses:
+        '200':
+          description: Configuration fetched successfully and returned.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AirQualitySensorOptions'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AirQualitySensorOptions'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AirQualitySensorOptions'
+  '/api/AirQualitySensor/parameters/name/{name}':
+    put:
+      tags:
+        - AirQualitySensor
+      summary: Updates Sensor configuration with changing sensor name.
+      parameters:
+        - name: name
+          in: path
+          description: New name for the sensor.
+          required: true
+          schema:
+            type: string
+            description: New name for the sensor.
+            nullable: true
+      responses:
+        '204':
+          description: Name changed successfully.
+  '/api/AirQualitySensor/parameters/sendingDelayMs/{sendingDelayMs}':
+    put:
+      tags:
+        - AirQualitySensor
+      summary: Updates Sensor configuration with changing sendingDelayMs (configuration).
+      parameters:
+        - name: sendingDelayMs
+          in: path
+          description: New value for sendingDelayMs. Value is represented in milliseconds.
+          required: true
+          schema:
+            type: integer
+            description: New value for sendingDelayMs. Value is represented in milliseconds.
+            format: int32
+      responses:
+        '204':
+          description: Delay is changed to new value.
+  /api/Row/Next:
+    get:
+      tags:
+        - Row
+      responses:
+        '200':
+          description: Success
+  '/api/SignalLight/IsOn/{stationCode}':
+    get:
+      tags:
+        - SignalLight
+      summary: Checks if signal light is on for the specific station.
+      parameters:
+        - name: stationCode
+          in: path
+          required: true
+          schema:
+            type: string
+            nullable: true
+      responses:
+        '200':
+          description: Operation completed successfully and boolean result is returned.
+          content:
+            text/plain:
+              schema:
+                type: boolean
+            application/json:
+              schema:
+                type: boolean
+            text/json:
+              schema:
+                type: boolean
+  '/api/SignalLight/ActiveColor/{stationCode}':
+    get:
+      tags:
+        - SignalLight
+      summary: Returns the color of active light for specified station code.
+      parameters:
+        - name: stationCode
+          in: path
+          required: true
+          schema:
+            type: string
+            nullable: true
+      responses:
+        '200':
+          description: Signal light color represented as a string.
+          content:
+            text/plain:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+  '/api/SignalLight/ActiveColor/{stationCode}/{color}':
+    put:
+      tags:
+        - SignalLight
+      summary: Updates active color of signal light for specified station code.
+      parameters:
+        - name: stationCode
+          in: path
+          description: Station code of the light that needs to be changed
+          required: true
+          schema:
+            type: string
+            description: Station code of the light that needs to be changed
+            nullable: true
+        - name: color
+          in: path
+          description: New color value. Color value is LightColor enum.
+          required: true
+          schema:
+            $ref: '#/components/schemas/LightColor'
+      responses:
+        '204':
+          description: Signal light color is changed to new value.
+  '/api/SignalLight/TurnOn/{stationCode}':
+    put:
+      tags:
+        - SignalLight
+      summary: Turns on the signal light for specified station code.
+      description: Signal light is started with default color that is configured in appsettings.json
+      parameters:
+        - name: stationCode
+          in: path
+          required: true
+          schema:
+            type: string
+            nullable: true
+      responses:
+        '204':
+          description: Signal light started
+  '/api/SignalLight/TurnOff/{stationCode}':
+    put:
+      tags:
+        - SignalLight
+      summary: Turns off the signal light for specified station code.
+      description: Current color or signal light is not saved. Color will be default one at next start
+      parameters:
+        - name: stationCode
+          in: path
+          required: true
+          schema:
+            type: string
+            nullable: true
+      responses:
+        '204':
+          description: Signal light turned off.
+  /api/SignalLight/parameters:
+    get:
+      tags:
+        - SignalLight
+      summary: Returns active configuration on witch application is running.
+      responses:
+        '200':
+          description: Configuration fetched successfully and returned.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/SignalLightOptions'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignalLightOptions'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SignalLightOptions'
+  '/api/SignalLight/parameters/{name}':
+    put:
+      tags:
+        - SignalLight
+      summary: Updates the name of signal light.
+      parameters:
+        - name: name
+          in: path
+          description: New name.
+          required: true
+          schema:
+            type: string
+            description: New name.
+            nullable: true
+      responses:
+        '204':
+          description: Signal light is renamed.
+  '/api/SignalLight/parameters/{defaultLight}':
+    put:
+      tags:
+        - SignalLight
+      summary: Updates default color of signal light.
+      parameters:
+        - name: defaultLight
+          in: path
+          description: New default color value.
+          required: true
+          schema:
+            $ref: '#/components/schemas/LightColor'
+      responses:
+        '204':
+          description: Signal light always started with default color.
+components:
+  schemas:
+    StationInfoDto:
+      type: object
+      properties:
+        stationCode:
+          type: integer
+          format: int32
+        stationAddress:
+          type: string
+          nullable: true
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+      additionalProperties: false
+    AirPollutionInfoDto:
+      type: object
+      properties:
+        so2:
+          type: number
+          format: double
+        no2:
+          type: number
+          format: double
+        o3:
+          type: number
+          format: double
+        co:
+          type: number
+          format: double
+        pm10:
+          type: number
+          format: double
+        pm25:
+          type: number
+          format: double
+      additionalProperties: false
+    RawDataInstanceDto:
+      type: object
+      properties:
+        measurementDate:
+          type: string
+          format: date-time
+        stationInfo:
+          $ref: '#/components/schemas/StationInfoDto'
+        airPollutionInfo:
+          $ref: '#/components/schemas/AirPollutionInfoDto'
+      additionalProperties: false
+    AirQualitySensorOptions:
+      type: object
+      properties:
+        name:
+          type: string
+          nullable: true
+        readingDelayMs:
+          type: integer
+          format: int32
+        dataPath:
+          type: string
+          nullable: true
+      additionalProperties: false
+    LightColor:
+      enum:
+        - Black
+        - Blue
+        - Green
+        - Yellow
+        - Red
+      type: string
+    SignalLightOptions:
+      type: object
+      properties:
+        name:
+          type: string
+          nullable: true
+        stationCodes:
+          type: array
+          items:
+            type: string
+          nullable: true
+        defaultColor:
+          $ref: '#/components/schemas/LightColor'
+      additionalProperties: false

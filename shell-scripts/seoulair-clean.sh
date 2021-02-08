@@ -17,22 +17,22 @@ else
 	root_dir=$1
 fi
 
-if [ ! -d "./seoulair-device" ]; then
+if [ ! -d "$root_dir/seoulair-device" ]; then
 	echo "SeoulAir.Device microservice is missing or it not on right place."
 	exit 1
 fi
 
-if [ ! -d "./seoulair-command" ]; then
+if [ ! -d "$root_dir/seoulair-command" ]; then
 	echo "SeoulAir.Command microservice is missing or it not on right place."
 	exit 1
 fi
 
-if [ ! -d "./seoulair-analytics" ]; then
+if [ ! -d "$root_dir/seoulair-analytics" ]; then
 	echo "SeoulAir.Analytics microservice is missing or it not on right place."
 	exit 1
 fi
 
-if [ ! -d "./seoulair-data" ]; then
+if [ ! -d "$root_dir/seoulair-data" ]; then
 	echo "SeoulAir.Data microservice is missing or it not on right place."
 	exit 1
 fi
@@ -52,8 +52,8 @@ if docker-compose --version | grep -q 'command not found'; then
 	exit 1
 fi
 
-docker-compose -f ./seoulair-device/docker-compose.yml down
-docker-compose -f ./seoulair-command/docker-compose.yml down
-docker-compose -f ./seoulair-analytics/docker-compose.yml down
-docker-compose -f ./seoulair-data/docker-compose.yml down
+docker-compose -f $root_dir/seoulair-device/docker-compose.yml down
+docker-compose -f $root_dir/seoulair-command/docker-compose.yml down
+docker-compose -f $root_dir/seoulair-analytics/docker-compose.yml down
+docker-compose -f $root_dir/seoulair-data/docker-compose.yml down
 #docker-compose -f ./seoulair-gateway/docker-compose.yml down
