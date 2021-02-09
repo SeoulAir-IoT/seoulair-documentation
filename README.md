@@ -79,3 +79,9 @@ For starting the project on Linux operating systems use **[provided scripts](htt
 # Documentation
 Detailed documentation for each endpoint of each project can be found at **[documentation](https://gitlab.com/seoulair/seoulair-documentation/-/tree/master/open-api)** , or at links in README files of each project.
 
+## Project endpoints documentation: 
+- [Device documentation](https://glcdn.githack.com/seoulair/seoulair-documentation/-/raw/master/open-api/SeoulAir%20Device/seoulair-device-open-api.html)
+- [Data documentation](https://gl.githack.com/seoulair/seoulair-documentation/-/raw/master/open-api/SeoulAir%20Data/seoulair-data-open-api.json.html)
+- [Analytics documentation](https://glcdn.githack.com/seoulair/seoulair-documentation/-/raw/master/open-api/SeoulAir%20Analytics/seoulair-analytics-open-api.html)
+- [Command documentation](https://glcdn.githack.com/seoulair/seoulair-documentation/-/raw/master/open-api/SeoulAir%20Command/seoulair-command-open-api.html)
+
