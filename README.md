@@ -8,13 +8,13 @@ Main purpose is to provide microservices which will accept sensor data, store it
 
 
 ## Technologies and versions used:
-.NET Core (3.1)
-ASP .NET Core (3.1)
-MQTT Message broker
-Docker Engine (20.10.2)
-MongoDB (4.4.3)
-Microsoft SQL server (2019)
-Angular (11.0.5)
+- .NET Core (3.1)
+- ASP .NET Core (3.1)
+- MQTT Message broker
+- Docker Engine (20.10.2)
+- MongoDB (4.4.3)
+- Microsoft SQL server (2019)
+- Angular (11.0.5)
 
 # Links to microservices
 Device Microservice
