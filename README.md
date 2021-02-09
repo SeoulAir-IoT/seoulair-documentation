@@ -60,7 +60,7 @@ Ports for microservices are:
 - Analytics: 5700
 - Command: 5800
 - Gateway: 5900
-- Dashboard: 6000
+- Dashboard: 8080
 
 ## Linux scripts
 For starting the project on Linux operating systems use **[provided scripts](https://gitlab.com/seoulair/seoulair-documentation/-/tree/master/shell-scripts)**.
