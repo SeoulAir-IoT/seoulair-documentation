@@ -2,6 +2,25 @@
 Project SeoulAir is a group of projects comprised of six smaller microservice projects: Device, Data, Analytics, Command, Gateway and Web Dashboard. 
 Main purpose is to provide microservices which will accept sensor data, store it in database, search, filter and analyze that data. Notify end users of important events/alerts. Store those notifications and alerts and accept user changes and commands.
 
+## Device Microservice
+Takes measurements of air particles from Sensor, by reading data from [data.csv](https://gitlab.com/seoulair/seoulair-device/-/tree/develop/resources) file. Data is then sent to Data Microservice by Publishing it on MQTT broker to which Data is subscribed to.  Device microservice also offers REST methods to GET current sensor and actuator parameters, and PUT methods to set and modify them.
+
+## Data Microservice
+This microservice takes data from Device microservice trough MQTT broker, stores them in Mongo database, and eventually retrieves them and send them to Analytics microservice.
+
+## Analytics Microservice
+Gets data from Data Microservice, analyzes them, stores them in Mongo database, and sends notifications and alerts to Dashboard microservice, relevant to the normal values of measurements of air pollution, while also sending REST request to Command Microservice which will send an appropriate action to Device Microservice to apply to Actuator.
+
+## Command Microservice
+Sends commands to the virtual actuator via Device Microservice.
+
+## Gateway Microservice
+This microservice is used to access other microservices in SeoulAir group. 
+
+## Dashboard Microservice
+Takes data, notifications and alerts trough Gateway microservice and visualizes them using among other Angular materials, as well as enabling options to set sensor, actuator and command parameters.
+
+
 # Built with 
 
 ## Pre requirements
@@ -77,7 +96,7 @@ For starting the project on Linux operating systems use **[provided scripts](htt
 
 
 # Documentation
-Detailed documentation for each endpoint of each project can be found at **[documentation](https://gitlab.com/seoulair/seoulair-documentation/-/tree/master/open-api)** , or at links in README files of each project.
+Detailed documentation for each endpoint of each project can be found at **[documentation](https://gitlab.com/seoulair/seoulair-documentation/-/tree/master/open-api)** .
 
 ## Project endpoints documentation: 
 - [Device documentation](https://glcdn.githack.com/seoulair/seoulair-documentation/-/raw/master/open-api/SeoulAir%20Device/seoulair-device-open-api.html)
