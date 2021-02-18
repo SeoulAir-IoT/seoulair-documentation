@@ -11,7 +11,7 @@ if [ "$#" -gt 1 ]; then
 fi
 
 if [ "$#" -eq 1 ] && ! [ -d "$1" ]; then
-	  echo "Usage: $1 DIRECTORY" >&2
+	  echo "Argument $1 must be a DIRECTORY" >&2
 	  exit 1
 else
 	root_dir=$1
@@ -37,10 +37,15 @@ if [ ! -d "$root_dir/seoulair-data" ]; then
 	exit 1
 fi
 
-#if [ ! -d "./seoulair-gateway" ]; then
-#	echo "SeoulAir.Gateway microservice is missing or it not on right place."
-#	exit 1
-#fi
+if [ ! -d "$root_dir/seoulair-gateway" ]; then
+	echo "SeoulAir.Gateway microservice is missing or it not on right place."
+	exit 1
+fi
+
+if [ ! -d "$root_dir/seoulair-dashboard" ]; then
+	echo "SeoulAir.Dashboard microservice is missing or it not on right place."
+	exit 1
+fi
 
 if systemctl status docker | grep -q 'inactive (dead)'; then
 	echo "Docker service is not running. Check if everything is ok with docker deamon."
@@ -56,4 +61,5 @@ docker-compose -f $root_dir/seoulair-device/docker-compose.yml down
 docker-compose -f $root_dir/seoulair-command/docker-compose.yml down
 docker-compose -f $root_dir/seoulair-analytics/docker-compose.yml down
 docker-compose -f $root_dir/seoulair-data/docker-compose.yml down
-#docker-compose -f ./seoulair-gateway/docker-compose.yml down
+docker-compose -f $root_dir/seoulair-gateway/docker-compose.yml down
+docker-compose -f $root_dir/seoulair-dashboard/docker-compose.yml down

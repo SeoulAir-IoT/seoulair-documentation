@@ -9,13 +9,13 @@ Takes measurements of air particles from Sensor, by reading data from [data.csv]
 This microservice takes data from Device microservice trough MQTT broker, stores them in Mongo database, and eventually retrieves them and send them to Analytics microservice.
 
 ## Analytics Microservice
-Gets data from Data Microservice, analyzes them, stores them in Mongo database, and sends notifications and alerts to Dashboard microservice, relevant to the normal values of measurements of air pollution, while also sending REST request to Command Microservice which will send an appropriate action to Device Microservice to apply to Actuator.
+Gets data from Data Microservice, analyzes them, stores results in Mongo database, and sends notifications and alerts to Dashboard microservice, relevant to the normal values of measurements of air pollution, while also sending REST request to Command Microservice which will send an appropriate action to Device Microservice to apply to Actuator.
 
 ## Command Microservice
-Sends commands to the virtual actuator via Device Microservice.
+Acts as an command dynamic command sotrage and their executor. Commands are meant to be used in order to control virtual actuabots.
 
 ## Gateway Microservice
-This microservice is used to access other microservices in SeoulAir group. 
+This microservice is used to access other microservices in SeoulAir group from outside. 
 
 ## Dashboard Microservice
 Takes data, notifications and alerts trough Gateway microservice and visualizes them using among other Angular materials, as well as enabling options to set sensor, actuator and command parameters.
@@ -24,7 +24,7 @@ Takes data, notifications and alerts trough Gateway microservice and visualizes 
 # Built with 
 
 ## Pre requirements
-
+Application is designed to be easily started with Docker. Therefor only software that is needed is running docker engine.
 
 ## Technologies and versions used:
 - .NET Core (3.1)
